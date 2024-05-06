@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import './App.css';
+import { InvestorAPI } from './api/api';
+import { useEffect, useState } from 'react';
+import { InvestorDisplay } from './models/types';
+import InvestorGrid from './components/InvestorGrid';
+
+const App = () => {
+  const [data, setData] = useState<InvestorDisplay[]>();
+
+  useEffect(() => {
+    fetchData();
+  })
+
+  const fetchData = async () => {
+    const data = await InvestorAPI.getInvestors();
+    setData(data.map( d => {return {
+      firm_id: d.firm_id, 
+      firm_name: d.firm_name,
+      date_added: new Date(d.date_added).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+      firm_type: d.firm_type,
+      address: `${d.address}, ${d.city}, ${d.country}, ${d.postal_code}`
+    } as InvestorDisplay}))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {data && <InvestorGrid data={data} />}
+    </>
   );
 }
 
