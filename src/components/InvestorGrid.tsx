@@ -17,26 +17,25 @@ const InvestorGrid: React.FC = () => {
     const [data, setData] = useState<InvestorDisplay[]>([]);
 
     useEffect(() => {
+      const fetchData = async () => {
+        const data = await InvestorAPI.getInvestors();
+        setData(data.map( d => {return {
+          firm_id: d.firm_id, 
+          firm_name: d.firm_name,
+          date_added: new Date(d.date_added).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+          firm_type: d.firm_type,
+          address: `${d.address}, ${d.city}, ${d.country}, ${d.postal_code}`
+        } as InvestorDisplay}))
+      }
       fetchData();
-    })
+    }, [])
 
     let navigate = useNavigate();
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => { 
         navigate(`/investor/${params.row.firm_id}`);
     };
-  
-    const fetchData = async () => {
-      const data = await InvestorAPI.getInvestors();
-      setData(data.map( d => {return {
-        firm_id: d.firm_id, 
-        firm_name: d.firm_name,
-        date_added: new Date(d.date_added).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-        firm_type: d.firm_type,
-        address: `${d.address}, ${d.city}, ${d.country}, ${d.postal_code}`
-      } as InvestorDisplay}))
-    }
-  
+    
     return (
         <div>
             <DataGrid 

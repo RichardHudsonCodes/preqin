@@ -31,10 +31,10 @@ export interface Commitment {
 }
 
 export enum AssetClass {
-    PRIVATE_EQUITY = 'PE',
-    REAL_ESTATE = 'RE',
-    PRIVATE_DEBT = 'PD',
-    INFRASTRUCTURE = 'INF',
-    NATURAL_RESOURCES = 'NR',
-    HEDGE_FUNDS = 'HF',
+    PRIVATE_EQUITY = 'pe',
+    REAL_ESTATE = 're',
+    PRIVATE_DEBT = 'pd',
+    INFRASTRUCTURE = 'inf',
+    NATURAL_RESOURCES = 'nr',
+    HEDGE_FUNDS = 'hr',
 }

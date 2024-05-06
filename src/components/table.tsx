@@ -8,6 +8,9 @@ interface DataTableProps {
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
 
+    if (data.length === 0) {
+        return <div>No data available</div>;
+    } 
     return (
         <TableContainer component={Paper}>
             <Table aria-label="data table">
